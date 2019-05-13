@@ -3,11 +3,24 @@ version: '3.5'
 services:
   frontend:
     restart: always
-    container_name: frontend
+    container_name: ${APP_NAME}_frontend
+
+  backend:
+    restart: always
+    container_name: ${APP_NAME}_backend
 
   nginx:
-    build: ./nginx
     restart: always
     ports:
       - $HOSTPORT:80
-    container_name: nginx
+    depends_on:
+      - frontend
+      - backend
+    container_name: ${APP_NAME}_nginx
+
+  mongo:
+    restart: always
+    depends_on:
+      - backend
+    container_name: ${APP_NAME}_mongo
+
