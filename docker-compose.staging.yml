@@ -3,9 +3,23 @@ version: '3.5'
 services:
   frontend:
     build: ./frontend
-    image: test-ts-frontend
+    image: frontend
+
+  backend:
+    build: ./backend
+    env_file:
+      - ./.env
+    environment:
+      - PROD=1
 
   nginx:
-    image: test-ts-nginx
+    build: ./nginx
     ports:
       - 8080:80
+
+  mongo:
+    image: mongo
+    ports:
+    - 27017:27017
+    volumes:
+    - ./database:/data/db
